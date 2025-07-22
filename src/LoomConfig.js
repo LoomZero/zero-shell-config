@@ -7,9 +7,11 @@ const CLIUtil = require('./Util/CLIUtil');
 module.exports = class LoomConfig {
 
   constructor() {
+    const parse = CLIUtil.getParseOptions();
     this.private = {};
     this.config = {};
-    this.options = {};
+    this.args = parse.args;
+    this.options = parse.options;
     this.path = null;
   }
 
@@ -63,7 +65,6 @@ module.exports = class LoomConfig {
    * @returns {this}
    */
   load(dir = null) {
-    this.options = CLIUtil.getParseOptions();
     if (!dir) dir = process.cwd();
 
     const file = Path.join(dir, 'composer.json');
