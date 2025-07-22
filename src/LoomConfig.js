@@ -2,7 +2,7 @@ const FS = require('fs');
 const Path = require('path');
 const OS = require('os');
 const Readline = require('readline');
-const JSONUtil = require('./util/JSONUtil');
+const JSONUtil = require('./Util/JSONUtil');
 
 module.exports = class LoomConfig {
 
