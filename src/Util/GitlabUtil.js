@@ -1,3 +1,6 @@
+const Axios = require('axios');
+const FormData = require('form-data');
+
 module.exports = class GitlabUtil {
 
   /**
@@ -37,7 +40,7 @@ module.exports = class GitlabUtil {
     }
 
     try {
-      const response = await axios.post(
+      const response = await Axios.post(
         `https://gitlab.com/api/v4/projects/${encodedprojectId}/merge_requests`,
         form,
         {
