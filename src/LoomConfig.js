@@ -91,4 +91,15 @@ module.exports = class LoomConfig {
     return this;
   }
 
+  /**
+   * @param {string[]} keys 
+   */
+  check(keys = []) {
+    for (const key of keys) {
+      if (!JSONUtil.hasDeep(this, key)) {
+        throw new Error('The key ' + key + ' is not defined.');
+      }
+    }
+  }
+
 }
