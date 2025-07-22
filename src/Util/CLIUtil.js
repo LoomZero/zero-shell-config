@@ -3,29 +3,37 @@ const Readline = require('readline');
 module.exports = class CLIUtil {
 
   /**
-   * Parses CLI arguments like "--branch prod --prod"
-   * @param {string[]} args - Array of arguments (usually process.argv.slice(2))
-   * @returns {Object} Parsed key-value pairs
+   * Parses CLI options and returns positional arguments until the first "--option"
+   * @param {string[]} args - Typically process.argv.slice(2)
+   * @returns {{ options: Object, args: string[] }}
    */
-  static getParseOptions(args = null) {
-    args ??= process.argv.slice(2);
-    const result = {};
-    let i = 0;
+  static getParseOptions(params = null) {
+    const options = {};
+    const args = [];
 
-    while (i < args.length) {
-      const arg = args[i];
+    let i = 0;
+    let foundOption = false;
+
+    while (i < params.length) {
+      const arg = params[i];
+
+      if (!foundOption && !arg.startsWith('--')) {
+        args.push(arg);
+        i++;
+        continue;
+      }
+
+      foundOption = true;
 
       if (arg.startsWith('--')) {
-        const key = arg.replace(/^--/, '');
+        const key = arg.slice(2);
+        const next = params[i + 1];
 
-        const next = args[i + 1];
         if (!next || next.startsWith('--')) {
-          // Flag (e.g. --prod)
-          result[key] = true;
+          options[key] = true;
           i++;
         } else {
-          // Option with value (e.g. --branch prod)
-          result[key] = next;
+          options[key] = next;
           i += 2;
         }
       } else {
@@ -33,7 +41,7 @@ module.exports = class CLIUtil {
       }
     }
 
-    return result;
+    return { options, args };
   }
 
   static async ask(question) {
