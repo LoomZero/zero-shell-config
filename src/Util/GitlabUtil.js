@@ -6,6 +6,7 @@ module.exports = class GitlabUtil {
   /**
    * Create a merge request on GitLab
    * @param {Object} options
+   * @param {string} options.domain - https://gitlab.loom.de
    * @param {string} options.token - Your GitLab access token
    * @param {string} options.projectId - GitLab project path (e.g. "my-group/my-project")
    * @param {string} options.source - Source branch name
@@ -16,6 +17,7 @@ module.exports = class GitlabUtil {
    * @returns {Promise<string>} The URL of the created merge request
    */
   static async createMergeRequest({
+    domain,
     token,
     projectId,
     source,
@@ -40,8 +42,7 @@ module.exports = class GitlabUtil {
     }
 
     try {
-      const response = await Axios.post(
-        `https://gitlab.com/api/v4/projects/${encodedprojectId}/merge_requests`,
+      const response = await Axios.post(`${domain}/api/v4/projects/${encodedprojectId}/merge_requests`,
         form,
         {
           headers: {
