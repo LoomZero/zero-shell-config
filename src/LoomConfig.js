@@ -82,7 +82,7 @@ module.exports = class LoomConfig {
         if (data.extra && data.extra.loom) {
           this.config = data.extra.loom;
           this.path = file;
-          return;
+          return this;
         }
       } catch (err) {
         console.warn(`Error by parsing ${file}:`, err.message);
@@ -93,6 +93,7 @@ module.exports = class LoomConfig {
     if (parent !== dir) {
       this.load(parent);
     }
+    console.warn(`No composer.json found with key "extra.loom".`);
     return this;
   }
 
