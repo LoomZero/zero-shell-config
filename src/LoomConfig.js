@@ -2,6 +2,7 @@ const FS = require('fs');
 const Path = require('path');
 const OS = require('os');
 const Readline = require('readline');
+const JSONUtil = require('./util/JSONUtil');
 
 module.exports = class LoomConfig {
 
@@ -48,11 +49,12 @@ module.exports = class LoomConfig {
     if (!config[namespace]) {
       missing = tokens;
     } else {
-      missing = tokens.filter(token => !config[namespace].hasOwnProperty(token));
+      missing = tokens.filter(token => JSONUtil.getDeep(config, namespace + '.' + token, undefined) === undefined);
     }
 
     if (missing.length > 0) {
       config[namespace] = {};
+      console.log(`Config "${namespace}" incomplete, start setup ...`);
       await setup(config[namespace], missing);
 
       try {
