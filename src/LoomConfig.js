@@ -92,8 +92,9 @@ module.exports = class LoomConfig {
     const parent = Path.dirname(dir);
     if (parent !== dir) {
       this.load(parent);
+    } else {
+      console.warn(`WARN: No composer.json found with key "extra.loom".`);
     }
-    console.warn(`No composer.json found with key "extra.loom".`);
     return this;
   }
 
