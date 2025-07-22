@@ -55,7 +55,9 @@ module.exports = class LoomConfig {
     if (missing.length > 0) {
       config[namespace] = {};
       console.log(`Config "${namespace}" incomplete, start setup ...`);
-      await setup(config[namespace], missing);
+      await setup(config[namespace], missing, (key, value) => {
+        JSONUtil.setDeep(config, namespace + '.' + key, value);
+      });
 
       try {
         FS.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
