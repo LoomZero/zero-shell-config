@@ -4,10 +4,11 @@ module.exports = class CLIUtil {
 
   /**
    * Parses CLI options and returns positional arguments until the first "--option"
-   * @param {string[]} args - Typically process.argv.slice(2)
+   * @param {string[]} params - Typically process.argv.slice(2)
    * @returns {{ options: Object, args: string[] }}
    */
   static getParseOptions(params = null) {
+    params ??= process.argv.slice(2);
     const options = {};
     const args = [];
 
