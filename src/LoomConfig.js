@@ -49,7 +49,7 @@ module.exports = class LoomConfig {
     if (!config[namespace]) {
       missing = tokens;
     } else {
-      missing = tokens.filter(token => JSONUtil.getDeep(config, namespace + '.' + token, undefined) === undefined);
+      missing = tokens.filter(token => !JSONUtil.hasDeep(config, namespace + '.' + token));
     }
 
     if (missing.length > 0) {

@@ -19,6 +19,21 @@ module.exports = class JSONUtil {
   /**
    * @param {Object} data
    * @param {string} name
+   * @returns {boolean}
+   */
+  static hasDeep(data, name) {
+    const splits = name.split('.');
+
+    for (const split of splits) {
+      if (data === undefined) return false;
+      data = data[split];
+    }
+    return (data === undefined ? false : true);
+  }
+
+  /**
+   * @param {Object} data
+   * @param {string} name
    * @param {any} value
    */
   static setDeep(data, name, value) {
