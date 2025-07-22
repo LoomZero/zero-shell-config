@@ -53,7 +53,7 @@ module.exports = class LoomConfig {
     }
 
     if (missing.length > 0) {
-      config[namespace] = {};
+      config[namespace] ??= {};
       console.log(`Config "${namespace}" incomplete, start setup ...`);
       await setup(config[namespace], missing, (key, value) => {
         JSONUtil.setDeep(config, namespace + '.' + key, value);
